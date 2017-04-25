@@ -1,4 +1,4 @@
-# Customer Entry Spec
+# Customer Entry
  
 ![Demo](demo.gif)
 
@@ -25,5 +25,5 @@ $ npm start
 $ yarn start
 ```
 
-Go to [http://localhost:3000](http://localhost:8080) in your browser.
-It will start a local server using `webpack-dev-server` which will watch, build (in-memory), and reload for you. The port will be displayed to you as `http://localhost:8080` using LowDB, small local JSON database powered by Lodash & Faker to generate initial seed data.
+Go to [http://localhost:3000](http://localhost:3000) in your browser.
+It will start a local server using `live-server` which will watch and reload for you. The port will be displayed to you as `http://localhost:3000` using LowDB, small local JSON database powered by Lodash & Faker to generate initial seed data.
