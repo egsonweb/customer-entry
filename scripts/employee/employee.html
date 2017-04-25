@@ -1,0 +1,271 @@
+<div class="employees-list">
+  <div class="modal active" ng-if="ec.showModal">
+    <div class="modal-overlay"></div>
+    <div class="modal-container">
+      <div class="modal-header">
+        <button class="btn btn-clear float-right" ng-click="ec.cancel()"></button>
+        <div class="modal-title">
+          <span ng-class="{'ion ion-person-add': !ec.editing, 'ion ion-edit': ec.editing}"></span>
+          <span>{{ editing ? 'Update' : 'Add' }} Employee</span>
+        </div>
+      </div>
+      <div class="modal-body">
+        <div class="content">
+          <form name="ec.employeeForm" autocomplete="off" novalidate>
+            <div class="columns">
+              <div class="column col-6">
+                <div class="form-group" ng-class="{ 'has-danger': ec.submit && ec.employeeForm.firstname.$invalid }">
+                  <input
+                    type="text"
+                    name="firstname"
+                    class="form-input"
+                    placeholder="First Name"
+                    required="true"
+                    ng-minlength="4"
+                    ng-model="ec.newEmployee.firstname" />
+                  <p
+                    class="form-input-hint"
+                    ng-messages="ec.employeeForm.firstname.$error"
+                    ng-if="ec.submit && ec.employeeForm.firstname.$error">
+                    <span ng-message="required">First name required</span>
+                    <span ng-message="minlength">First name must be atleast 4 characters long</span>
+                  </p>
+                </div>
+              </div>
+              <div class="column col-6">
+                <div class="form-group" ng-class="{ 'has-danger': ec.submit && ec.employeeForm.lastname.$invalid }">
+                  <input
+                    type="text"
+                    name="lastname"
+                    class="form-input"
+                    placeholder="Last Name"
+                    required="true"
+                    ng-minlength="2"
+                    ng-model="ec.newEmployee.lastname" />
+                    <p
+                      class="form-input-hint"
+                      ng-messages="ec.employeeForm.lastname.$error"
+                      ng-if="ec.submit && ec.employeeForm.lastname.$error">
+                      <span ng-message="required">Last name required</span>
+                      <span ng-message="minlength">Last name must be atleast 2 characters long</span>
+                    </p>
+                </div>
+              </div>
+            </div>
+
+            <div class="columns">
+              <div class="column col-12">
+                <div class="form-group" ng-class="{ 'has-danger': ec.submit && ec.employeeForm.email.$invalid }">
+                  <input
+                    type="email"
+                    name="email"
+                    class="form-input"
+                    placeholder="Email Address"
+                    required="true"
+                    ng-pattern="/^[a-z]+[a-z0-9._]+@[a-z]+\.[a-z.]{2,5}$/"
+                    ng-model="ec.newEmployee.email" />
+                    <p
+                      class="form-input-hint"
+                      ng-messages="ec.employeeForm.email.$error"
+                      ng-if="ec.submit && ec.employeeForm.email.$error">
+                      <span ng-message="required">Email address required</span>
+                      <span ng-message="pattern">Email address must be valid</span>
+                    </p>
+                </div>
+              </div>
+              <div class="column col-12">
+                <div class="form-group">
+                  <input
+                    type="text"
+                    class="form-input"
+                    placeholder="Phone number (Optional)"
+                    ng-model="ec.newEmployee.phone" />
+                </div>
+              </div>
+              <div class="column col-12">
+                <div class="form-group">
+                  <input
+                    type="text"
+                    class="form-input"
+                    placeholder="Street Name (Optional)"
+                    ng-model="ec.newEmployee.address.streetName" />
+                </div>
+              </div>
+              <div class="column col-12">
+                <div class="form-group">
+                  <input
+                    type="text"
+                    class="form-input"
+                    placeholder="Street Address (Optional)"
+                    ng-model="ec.newEmployee.address.streetAddress" />
+                </div>
+              </div>
+            </div>
+
+            <div class="columns">
+              <div class="column col-4">
+                <div class="form-group">
+                  <input
+                    type="text"
+                    class="form-input"
+                    placeholder="City (Optional)"
+                    ng-model="ec.newEmployee.address.city" />
+                </div>
+              </div>
+              <div class="column col-4">
+                <div class="form-group">
+                  <input
+                    type="text"
+                    class="form-input"
+                    placeholder="State (Optional)"
+                    ng-model="ec.newEmployee.address.state" />
+                </div>
+              </div>
+              <div class="column col-4">
+                <div class="form-group">
+                  <input
+                    type="text"
+                    class="form-input"
+                    placeholder="Zipcode (Optional)"
+                    ng-model="ec.newEmployee.address.zipcode" />
+                </div>
+              </div>
+            </div>
+          </form>
+        </div>
+      </div>
+      <div class="modal-footer">
+        <button class="btn btn-link" ng-click="ec.cancel()">Cancel</button>
+        <button
+          class="btn btn-primary"
+          ng-if="!ec.editing"
+          ng-class="{'disabled': !ec.employeeForm.$dirty && !ec.employeeForm.$valid}"
+          ng-click="ec.add()">
+          Add
+        </button>
+        <button
+          class="btn btn-primary"
+          ng-if="ec.editing"
+          ng-class="{'disabled': !ec.employeeForm.$dirty && !ec.employeeForm.$valid}"
+          ng-click="ec.update()">
+          Update
+        </button>
+      </div>
+    </div>
+  </div>
+  <!-- end modal-->
+
+  <div class="container container-fixed">
+    <div class="columns">
+      <div class="column col-6 employee-list-title">
+        <h4 class="title">
+          Employees <span ng-if="ec.employees.length">({{ ec.employees.length }})</span>
+        </h4>
+      </div>
+      <!-- end list-title-->
+
+      <div class="column col-6 employee-list-header">
+        <a
+          href="#"
+          class="btn btn-primary remove-employee"
+          ng-click="ec.removeSelected()"
+          ng-if="ec.selected() !== 0">
+          <span class="icon ion ion-trash-b"></span>Delete Selected
+        </a>
+        <a ng-click="ec.show()" href="#" class="btn btn-primary add-employee">
+          <span class="icon ion ion-android-add"></span>Add Employee
+        </a>
+      </div>
+      <!-- end list-header-->
+    </div>
+
+    <div class="columns">
+      <div class="column col-12 employee-list-detail">
+        <div class="columns">
+          <div class="column col-12" ng-if="!ec.employees.length || results.length === 0">
+            <div class="employee-list-noresults">
+              <p><span class="ion ion-paper-airplane"></span></p>
+              <p>No employees found. To add one, click the add button above</p>
+            </div>
+          </div>
+          <!-- end no-results-box -->
+
+          <div class="column col-12" ng-if="ec.employees.length">
+            <div class="columns">
+              <div class="column col-12">
+                <div class="employee-list-search">
+                  <input
+                    type="text"
+                    class="form-input"
+                    placeholder="Search here"
+                    ng-model="searchText.name" />
+                </div>
+              </div>
+              <div class="column col-12">
+                <div class="employee-list-table">
+                  <table class="table table-hover">
+                    <thead>
+                      <tr class="employee-detail">
+                        <th class="employee-detail__toggle">
+                          <input type="checkbox" ng-model="ec.checkAll" ng-change="ec.selectAll()" />
+                        </th>
+                        <th class="employee-detail__info">Name</th>
+                        <th class="employee-detail__email">Email</th>
+                        <th class="employee-detail__phone">Phone</th>
+                        <th class="employee-detail__address">Address</th>
+                        <th class="employee-detail__controls"></th>
+                      </tr>
+                    </thead>
+                    <tbody>
+                      <tr ng-if="results.length < 1">
+                        <td colspan="6" class="text-center">No results found!</td>
+                      </tr>
+                      <tr
+                        class="employee-detail"
+                        ng-if="results.length > 0"
+                        ng-repeat="employee in ec.employees | filter:searchText.name:strict as results track by employee.employeeId">
+                        <td class="employee-detail__toggle">
+                            <input type="checkbox" ng-model="employee.selected" ng-click="ec.select(employee.employeeId)" />
+                        </td>
+                        <td class="employee-detail__info">
+                          <div class="employee-avatar">
+                            <img ng-src="{{ employee.avatar }}" alt="{{ employee.firstname }}">
+                          </div>
+                          <div class="employee-info">
+                            <span>{{ employee.firstname }} {{ employee.lastname }}</span>
+                            <span>{{ employee.job.title || 'NA' }}</span>
+                          </div>
+                        </td>
+                        <td class="employee-detail__email">{{ employee.email | lowercase }}</td>
+                        <td class="employee-detail__phone">{{ employee.phone || 'NA' }}</td>
+                        <td class="employee-detail__address">
+                          <span ng-if="employee.address !== undefined">
+                            <span ng-if="employee.address.streetName">{{ employee.address.streetName }},</span>
+                            <span ng-if="employee.address.streetAddress">{{ employee.address.streetAddress }},</span>
+                            <span ng-if="employee.address.city">{{ employee.address.city }},</span>
+                            <span ng-if="employee.address.state && employee.address.state">{{ employee.address.state }} {{ employee.address.zipcode }}</span>
+                          </span>
+                          <span ng-if="employee.address === undefined">NA</span>
+                        </td>
+                        <td class="employee-detail__controls">
+                          <div class="btn-group-block">
+                            <button class="btn btn-primary employee-edit" ng-click="ec.edit(employee)">
+                              <span class="ion ion-edit"></span>
+                            </button>
+                            <button class="btn employee-remove" ng-click="ec.remove(employee.employeeId)">
+                              <span class="ion ion-trash-a"></span>
+                            </button>
+                          </div>
+                        </td>
+                      </tr>
+                    </tbody>
+                  </table>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

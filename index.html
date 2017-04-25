@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <title>Customer Entry Spec</title>
+
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/spectre.css/0.2.7/spectre.min.css">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/ionicons/2.0.1/css/ionicons.min.css">
+  <link rel="stylesheet" href="styles/app.css">
+</head>
+<body ng-app="app">
+  <app></app>
+
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/Faker/3.1.0/faker.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/lodash.js/4.17.4/lodash.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/lowdb/0.16.2/lowdb.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/angular.js/1.4.14/angular.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/angular.js/1.4.14/angular-messages.min.js"></script>
+  
+
+  <!-- Load employee module -->
+  <script src="scripts/employee/module.js"></script>
+  <script src="scripts/employee/service.js"></script>
+  <script src="scripts/employee/controller.js"></script>
+  
+  <!-- Load app and shared modules -->
+  <script src="scripts/app.js"></script>
+  <script src="scripts/shared/services/faker.js"></script>
+  <script src="scripts/shared/services/db.js"></script>
+  <script src="scripts/shared/navbar/module.js"></script>
+</body>
+</html>
