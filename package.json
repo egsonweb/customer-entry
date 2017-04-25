@@ -1,0 +1,23 @@
+{
+  "name": "customer-spec-simple",
+  "version": "1.0.0",
+  "description": "![Demo](demo.gif)",
+  "main": "index.js",
+  "scripts": {
+    "start": "live-server . -p 3000"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/egsonweb/customer-entry.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/egsonweb/customer-entry/issues"
+  },
+  "homepage": "https://github.com/egsonweb/customer-entry#readme",
+  "dependencies": {
+    "live-server": "^1.2.0"
+  }
+}
